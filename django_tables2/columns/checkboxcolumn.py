@@ -58,7 +58,10 @@ class CheckBoxColumn(Column):
         general = self.attrs.get('input')
         specific = self.attrs.get('th__input')
         attrs = AttributeDict(default, **(specific or general or {}))
-        return mark_safe('<input %s/>' % attrs.as_html())
+        if self.verbose_name is not None:
+            return mark_safe('%s' % self.verbose_name)
+        else:
+            return mark_safe('<input %s/>' % attrs.as_html())
 
     def render(self, value, bound_column, record):
         default = {
